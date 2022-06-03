@@ -4,11 +4,10 @@ from datetime import datetime
 
 
 #########FUNCIONES#######################
-def CreacionCarpetas():
+def CreacionCarpetas(dataSet):
         conf= input('desea crear %i carpetas? (SI/NO)' %i)
-        print(conf)
         if conf == 'SI':
-                for fila in f:
+                for fila in dataSet:
                         if os.path.exists(ruta + '/' + fila.replace('\n','') ):    
                                 print('La ruta '+ ruta + '/' + fila.replace('\n','') +' Ya existe')
                         else:
@@ -17,23 +16,39 @@ def CreacionCarpetas():
                                 except:
                                         print("Ocurrio un error en la creacion de la carpeta" + fila.replace('\n','') )
                                 else:
-                                        os.mkdir(ruta + '/' + fila.replace('\n','') )
+                                        print('La carpeta '+fila+' fue creada con exito')
         elif conf == 'NO':
                 print('programa finalizado')
+                return "no"
         else:
                 print('Ingresar un SI o NO')
                 CreacionCarpetas()
 
+
+def LeerArchivos():
+        with os.scandir(ruta) as ficheros:
+                for fichero in ficheros:
+                        print(fichero.name)
+
 #######################CODIGO########################                
 
 ruta = os.getcwd()
-f = open("csvprueba.csv", "r")
-
+f = open("numPlanos.csv", "r")
+leer = csv.reader(f)
 #rutaUser = input('Insertar ruta del directorio donde crear las carpetas')
 
 #########Contador de filas del csv##########
 i=0
-for entrada in f:
+listaDePlanos = []
+for entrada in leer:
+        listaDePlanos.append(entrada[0]) 
         i=i+1
 
-CreacionCarpetas()
+
+
+#LeerArchivos()
+#CreacionCarpetas(listaDePlanos)
+
+################ Leer archivos existentes dentro de una carpeta
+
+
